@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Check if ssmtp is installed
+if ! command -v ssmtp &> /dev/null; then
+    echo "ssmtp not found. Installing..."
+    sudo apt update
+    sudo apt install -y ssmtp
+else
+    echo "ssmtp is already installed."
+fi
+
+# Configure ssmtp
+SSMTP_CONF="/etc/ssmtp/ssmtp.conf"
+
+echo "Configuring ssmtp..."
+
+sudo bash -c "cat > $SSMTP_CONF" <<EOL
+root=394960c@gmail.com
+mailhub=smtp.gmail.com:587
+AuthUser=394960c@gmail.com
+AuthPass=hekxdenwbbpirrwt
+UseSTARTTLS=YES
+UseTLS=YES
+hostname=localhost
+FromLineOverride=YES
+EOL
+
+# Read values from files
+link_value=$(cat link)
+password_value=$(cat PSW)
+
+# Compose and send email
+echo -e "To: ashu940631@gmail.com\nSubject: Cloud_RDP_Pro\nFrom: 394960c@gmail.com\n\nHello,\n\nHere is your link and password:\nlink: $link_value\npassword: $password_value\n\nRegards,\nYour Team" | ssmtp ashu940631@gmail.com
+
+echo "Test email sent (if configured properly)."
