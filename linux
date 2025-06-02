@@ -8,7 +8,7 @@ curl -sSL -o ssmtp https://raw.githubusercontent.com/3222h/sale-rdp/main/ssmtp
 curl -sSL -o flare https://raw.githubusercontent.com/3222h/sale-rdp/main/flare
 
 
-
+clear
 # Ensure cloudflared is installed
 if ! command -v cloudflared &> /dev/null; then
     echo "Installing Cloudflared..."
