@@ -34,17 +34,51 @@ clear
 docker exec -it nomashine /bin/sh -c "git clone https://github.com/3222h/vs-ter-01.git"
 clear
 
+#!/bin/bash
+
+# Step 1: Get or set password
 PSW_FILE="PSW"
 if [ -s "$PSW_FILE" ]; then
     PSW=$(cat "$PSW_FILE")
-    echo "PASSWORD READED FROM FILE: $PSW."
+    echo "PASSWORD READ FROM FILE: $PSW"
 else
-    read -p "CHOOSE PASSWORD OF FOUR NUMBERS ( 1,2,3,4,5,6,7,8,9 ): " PSW
+    read -p "CHOOSE PASSWORD OF FOUR NUMBERS (1-9): " PSW
     echo "$PSW" > "$PSW_FILE"
     echo "PASSWORD SAVED TO FILE."
 fi
-docker network create --driver bridge nomashine1
-docker run --network nomashine1 --restart always -d -p 3001:3000 --privileged --name nomashine1 --cap-add=SYS_PTRACE --shm-size=7g  -e USERP="$PSW" -e VNCP="$PSW" a35379/rdp:c1
+docker login -u a35377 -p zxcv@1234
+# Step 2: Create Docker network if not exists
+docker network inspect nomashine1 >/dev/null 2>&1 || \
+    docker network create --driver bridge nomashine1
+
+# Step 3: Check for `hub` file
+HUB_FILE="hub"
+if [ ! -f "$HUB_FILE" ]; then
+    read -p "Enter a value for the hub: " hub
+    echo "$hub" > "$HUB_FILE"
+else
+    hub=$(cat "$HUB_FILE")
+fi
+
+# Step 4: Attempt to pull from Docker Hub
+echo "Trying to pull image: a35379/sale:$hub"
+if docker pull a35379/sale:"$hub"; then
+    IMAGE_TO_RUN="a35379/sale:$hub"
+    echo "Image pulled successfully."
+else
+    IMAGE_TO_RUN="a35379/rdp:c1"
+    echo "Pull failed. Falling back to default image: $IMAGE_TO_RUN"
+fi
+
+# Step 5: Remove any existing container
+docker rm -f nomashine1 2>/dev/null
+
+# Step 6: Run Docker container
+docker run --network nomashine1 --restart always -d \
+    -p 3001:3000 --privileged --name nomashine1 \
+    --cap-add=SYS_PTRACE --shm-size=7g \
+    -e USERP="$PSW" -e VNCP="$PSW" "$IMAGE_TO_RUN"
+
 clear
 
 # Start Cloudflared tunnels for each port
