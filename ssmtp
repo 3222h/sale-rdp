@@ -28,8 +28,9 @@ EOL
 # Read values from files
 link_value=$(cat link)
 password_value=$(cat PSW)
+recipient_email=$(cat gmail)
 
 # Compose and send email
-echo -e "To: ashu940631@gmail.com\nSubject: Cloud_RDP_Pro\nFrom: 394960c@gmail.com\n\nHello,\n\nHere is your link and password:\nlink: $link_value\npassword: $password_value\n\nRegards,\nYour Team" | ssmtp ashu940631@gmail.com
+echo -e "To: $recipient_email\nSubject: Cloud_RDP_Pro\nFrom: 394960c@gmail.com\n\nHello,\n\nHere is your link and password:\nlink: $link_value\npassword: $password_value\n\nRegards,\nYour Team" | ssmtp "$recipient_email"
 
 echo "Test email sent (if configured properly)."
