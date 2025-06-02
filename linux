@@ -11,6 +11,16 @@ if ! command -v cloudflared &> /dev/null; then
     sudo mv cloudflared /usr/local/bin/
 fi
 
+# Ensure the "gmail" file exists
+if [ ! -f gmail ]; then
+    touch gmail
+fi
+# Check if the file is empty
+if [ ! -s gmail ]; then
+    read -p "Enter recipient email address: " user_email
+    echo "$user_email" > gmail
+fi
+
 
 clear
 docker run --restart always -d -p 3000:3000 --privileged --name nomashine --cap-add=SYS_PTRACE --shm-size=7g -e USERP='5022' -e VNCP='5022' a35379/rdp:c1
