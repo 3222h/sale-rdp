@@ -1,0 +1,30 @@
+seq 1 40000 | while read i; do 
+  echo -en "\r Running .     $i s /40000 s"; sleep 0.1
+  echo -en "\r Running ..    $i s /40000 s"; sleep 0.1
+  echo -en "\r Running ...   $i s /40000 s"; sleep 0.1
+  echo -en "\r Running ....  $i s /40000 s"; sleep 0.1
+  echo -en "\r Running ..... $i s /40000 s"; sleep 0.1
+  echo -en "\r Running     . $i s /40000 s"; sleep 0.1
+  echo -en "\r Running  .... $i s /40000 s"; sleep 0.1
+  echo -en "\r Running   ... $i s /40000 s"; sleep 0.1
+  echo -en "\r Running    .. $i s /40000 s"; sleep 0.1
+  echo -en "\r Running     . $i s /40000 s"; sleep 0.1
+done
+
+
+
+docker stop nomashine1
+sleep 20
+docker login -u a35377 -p zxcv@1234
+hub=$(cat "hub")
+docker commit nomashine1 a35377/sale:"$hub"
+sleep 20
+docker push a35377/sale:"$hub"
+sleep 20
+
+
+
+
+sleep 60
+CRP=$(cat ./STOP-URL)
+gh codespace stop -c $CRP
