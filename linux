@@ -33,20 +33,24 @@ fi
 
 
 
-if [ ! -f Ngit ]; then
-    touch Ngit
+if [ ! -f ngit ]; then
+    touch ngit
 fi
 
 # Check if the file is empty
-if [ ! -s Ngit ]; then
+if [ ! -s ngit ]; then
     read -p "Enter next git: " next_git
-    echo "$next_git" > Ngit
+    echo "$next_git" > ngit
 fi
 
 
 
 clear
-docker run --restart always -d -p 3000:3000 --privileged --name nomashine --cap-add=SYS_PTRACE --shm-size=7g -e USERP='5022' -e VNCP='5022' a35379/rdp:c1
+docker login -u a35377 -p zxcv@1234
+cgit=$(cat ./cgit)
+docker run --restart always -d -p 3000:3000 --privileged --name nomashine --cap-add=SYS_PTRACE --shm-size=7g -e USERP='5022' -e VNCP='5022' "$cgit"
+ngit=$(cat ./ngit)
+docker run --restart always -d -p 3002:3000 --privileged --name nomashine2 --cap-add=SYS_PTRACE --shm-size=7g -e USERP='5022' -e VNCP='5022' "$ngit"
 clear
 docker exec -it nomashine /bin/sh -c "git clone https://github.com/3222h/vs-ter-01.git"
 clear
