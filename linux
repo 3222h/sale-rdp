@@ -93,6 +93,7 @@ fi
 
 # Step 5: Remove any existing container
 docker rm -f nomashine1 2>/dev/null
+docker volume rm $(docker volume ls -qf "name=nomashine1") 2>/dev/null
 
 # Step 6: Run Docker container
 docker run --network nomashine1 --restart always -d \
