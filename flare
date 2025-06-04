@@ -4,25 +4,25 @@ first_run=true
 
 while true; do
     if $first_run; then
-        sleep 300 > /dev/null 2>&1 & wait
+        sleep 300 > /dev/null 2>&1
         first_run=false
     fi
 
-    recipient_email=$(cat gmail) > /dev/null 2>&1 & wait
+    recipient_email=$(cat gmail)
 
     for i in 1; do
-        url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel$i.log | head -n1) > /dev/null 2>&1 & wait
-        echo "$url" > current_url$i.txt > /dev/null 2>&1 & wait
+        url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel$i.log | head -n1)
+        echo "$url" > current_url$i.txt
 
-        last_url=$(cat last_url$i.txt 2>/dev/null) > /dev/null 2>&1 & wait
+        last_url=$(cat last_url$i.txt 2>/dev/null)
 
         if [[ "$url" != "$last_url" ]]; then
-            echo "$url" > last_url$i.txt > /dev/null 2>&1 & wait
+            echo "$url" > last_url$i.txt
             cloudflared tunnel --url http://localhost:3001 > tunnel1.log 2>&1 &
-            sleep 8 > /dev/null 2>&1 & wait
+            sleep 8 > /dev/null 2>&1
             bash ssmtp > /dev/null 2>&1 &
         fi
-    done > /dev/null 2>&1 &
+    done
 
-    sleep 60 > /dev/null 2>&1 & wait  # wait before next loop iteration
-done > /dev/null 2>&1 &
+    sleep 60 > /dev/null 2>&1
+done
