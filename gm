@@ -1,2 +1,2 @@
-gmail="gmail 1"
+gmail="gmail-1"
 curl -sSL -o "$gmail" "https://raw.githubusercontent.com/freelink01/gmail/main/$gmail"
