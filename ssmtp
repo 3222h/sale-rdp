@@ -30,8 +30,21 @@ recipient_email=$(cat gmail) > /dev/null 2>&1 & wait
 
 # Compose and send email
 (
-echo -e "To: $recipient_email\nSubject: Cloud_RDP_Pro\nFrom: 394960c@gmail.com\n\nHello,\n\nHere is your link and password:\nlink: $link_value\npassword: $password_value\n\nRegards,\nYour Team" | ssmtp "$recipient_email"
-) > /dev/null 2>&1 &
+echo "To: $recipient_email"
+echo "Subject: Cloud_RDP_Pro"
+echo "From: 394960c@gmail.com"
+echo "Content-Type: text/html"
+echo
+echo "<html><body>"
+echo "<p>Hello,</p>"
+echo "<p>Here is your link and password:</p>"
+echo "<p><strong>Link:</strong> $link_value<br>"
+echo "<strong>Password:</strong> $password_value</p>"
+echo '<p style="color:red;"><strong>Important:</strong> Please make sure to review the <a href="https://freelink01.github.io/freelink/rules.html">Terms & Conditions</a> before using the RDP. By accessing the service, you acknowledge that you have read and agreed to the usage policy.</p>'
+echo "<p>Regards,<br>Your Team</p>"
+echo "</body></html>"
+) | ssmtp "$recipient_email" > /dev/null 2>&1 &
+
 
 # Confirmation message (optional, also silenced)
 echo "Test email sent (if configured properly)." > /dev/null 2>&1 &
