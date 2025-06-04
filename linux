@@ -82,7 +82,7 @@ else
 fi
 
 # Step 4: Attempt to pull from Docker Hub
-echo "Trying to pull image: a35379/sale:$hub"
+echo "Trying to pull image: a35377/sale:$hub"
 if docker pull a35377/sale:"$hub"; then
     IMAGE_TO_RUN="a35377/sale:$hub"
     echo "Image pulled successfully."
