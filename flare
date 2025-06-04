@@ -8,7 +8,7 @@ while true; do
         first_run=false
     fi
 
-    recipient_email=$(cat gmail)
+    last_url=$(cat link)
 
     for i in 1; do
         url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel$i.log | head -n1)
