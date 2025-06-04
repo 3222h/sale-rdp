@@ -8,23 +8,33 @@ while true; do
         first_run=false
     fi
 
-    last_url=$(cat link)
-
     for i in 1; do
-        url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel$i.log | head -n1)
-        echo "$url" > current_url$i.txt
+        # Extract current URL from tunnel log
+        current_url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel$i.log | head -n1)
+        echo "$current_url" > current_url$i.txt
 
-        last_url=$(cat last_url$i.txt 2>/dev/null)
+        # Read saved link (last known tunnel URL)
+        saved_url=$(cat link 2>/dev/null)
 
-        if [[ "$url" != "$last_url" ]]; then
-            echo "$url" > last_url$i.txt
+        # Check if cloudflared is running
+        tunnel_running=$(pgrep -f "cloudflared tunnel --url http://localhost:3001")
+
+        # Restart only if URL is different or tunnel has stopped
+        if [[ "$current_url" != "$saved_url" || -z "$tunnel_running" ]]; then
+            echo "$current_url" > last_url$i.txt
+
+            # Kill existing cloudflared process (if any)
+            pkill -f "cloudflared tunnel --url http://localhost:3001" 2>/dev/null
+
+            # Start new tunnel
             cloudflared tunnel --url http://localhost:3001 > tunnel1.log 2>&1 &
             sleep 8 > /dev/null 2>&1
 
-            # Update the "link" file with the latest URL after tunnel starts
+            # Extract new URL from fresh tunnel
             latest_url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel1.log | head -n1)
             echo "$latest_url" > link
 
+            # Send updated URL via email
             bash ssmtp > /dev/null 2>&1 &
         fi
     done
