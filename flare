@@ -20,6 +20,11 @@ while true; do
             echo "$url" > last_url$i.txt
             cloudflared tunnel --url http://localhost:3001 > tunnel1.log 2>&1 &
             sleep 8 > /dev/null 2>&1
+
+            # Update the "link" file with the latest URL after tunnel starts
+            latest_url=$(grep -o 'https://[-a-z0-9]*\.trycloudflare.com' tunnel1.log | head -n1)
+            echo "$latest_url" > link
+
             bash ssmtp > /dev/null 2>&1 &
         fi
     done
