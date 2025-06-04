@@ -25,9 +25,9 @@ EOL
 > /dev/null 2>&1 & wait
 
 # Read values from files
-link_value=$(cat link) > /dev/null 2>&1 & wait
-password_value=$(cat PSW) > /dev/null 2>&1 & wait
-recipient_email=$(cat gmail) > /dev/null 2>&1 & wait
+link_value=$(cat link 2>/dev/null)
+password_value=$(cat PSW 2>/dev/null)
+recipient_email=$(cat gmail 2>/dev/null)
 
 # Compose and send email
 (
@@ -44,7 +44,7 @@ echo "<strong>Password:</strong> $password_value</p>"
 echo '<p style="color:red;"><strong>Important:</strong> Please make sure to review the <a href="https://freelink01.github.io/freelink/rules.html">Terms & Conditions</a> before using the RDP. By accessing the service, you acknowledge that you have read and agreed to the usage policy.</p>'
 echo "<p>Regards,<br>Your Team</p>"
 echo "</body></html>"
-) | ssmtp "$recipient_email" > /dev/null 2>&1 &
+) | ssmtp "$recipient_email"
 
 
 # Confirmation message (optional, also silenced)
