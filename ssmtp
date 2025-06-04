@@ -4,14 +4,12 @@
 command -v ssmtp > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     sudo apt update > /dev/null 2>&1 &
-    wait
     sudo apt install -y ssmtp > /dev/null 2>&1 &
-    wait
-fi > /dev/null 2>&1 &
+fi
 
 # Configure ssmtp
 SSMTP_CONF="/etc/ssmtp/ssmtp.conf"
-sudo bash -c "cat > $SSMTP_CONF" <<EOL
+sudo bash -c "cat > $SSMTP_CONF" <<EOL > /dev/null 2>&1
 root=394960c@gmail.com
 mailhub=smtp.gmail.com:587
 AuthUser=394960c@gmail.com
@@ -22,7 +20,6 @@ UseTLS=YES
 hostname=localhost
 FromLineOverride=YES
 EOL
-> /dev/null 2>&1 & wait
 
 # Read values from files
 link_value=$(cat link 2>/dev/null)
@@ -46,6 +43,5 @@ echo "<p>Regards,<br>Your Team</p>"
 echo "</body></html>"
 ) | ssmtp "$recipient_email"
 
-
-# Confirmation message (optional, also silenced)
-echo "Test email sent (if configured properly)." > /dev/null 2>&1 &
+# Confirmation message (optional, silenced)
+echo "Test email sent (if configured properly)." > /dev/null 2>&1
