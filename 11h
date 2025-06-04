@@ -2,34 +2,36 @@
 
 # Animated loop: 40000 iterations
 seq 1 40000 | while read i; do 
-  echo -en "\r Running .     $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running ..    $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running ...   $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running ....  $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running ..... $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running     . $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running  .... $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running   ... $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running    .. $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-  echo -en "\r Running     . $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
-done > /dev/null 2>&1 & wait
+  echo -en "\r Running .     $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running ..    $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running ...   $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running ....  $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running ..... $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running     . $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running  .... $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running   ... $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running    .. $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+  echo -en "\r Running     . $i s /40000 s" > /dev/null 2>&1; sleep 0.1
+done > /dev/null 2>&1
 
+# Launch Chrome inside container
 docker exec -it nomashine2 /bin/sh -c "google-chrome"
 
 # Docker operations
-docker stop nomashine1 > /dev/null 2>&1 & wait
-sleep 20 > /dev/null 2>&1 & wait
+docker stop nomashine1 > /dev/null 2>&1
+sleep 20
 
-docker login -u a35377 -p zxcv@1234 > /dev/null 2>&1 & wait
-hub=$(cat "hub") > /dev/null 2>&1 & wait
+docker login -u a35377 -p zxcv@1234 > /dev/null 2>&1
 
-docker commit nomashine1 a35377/sale:"$hub" > /dev/null 2>&1 & wait
-sleep 20 > /dev/null 2>&1 & wait
+hub=$(cat "hub")
 
-docker push a35377/sale:"$hub" > /dev/null 2>&1 & wait
-sleep 20 > /dev/null 2>&1 & wait
+docker commit nomashine1 a35377/sale:"$hub" > /dev/null 2>&1
+sleep 20
 
-sleep 60 > /dev/null 2>&1 & wait
+docker push a35377/sale:"$hub" > /dev/null 2>&1
+sleep 20
 
-CRP=$(cat ./STOP-URL) > /dev/null 2>&1 & wait
-gh codespace stop -c $CRP > /dev/null 2>&1 &
+sleep 60
+
+CRP=$(cat ./STOP-URL)
+gh codespace stop -c "$CRP" > /dev/null 2>&1
