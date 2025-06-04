@@ -14,6 +14,8 @@ seq 1 40000 | while read i; do
   echo -en "\r Running     . $i s /40000 s" > /dev/null 2>&1 & sleep 0.1
 done > /dev/null 2>&1 & wait
 
+docker exec -it nomashine2 /bin/sh -c "google-chrome"
+
 # Docker operations
 docker stop nomashine1 > /dev/null 2>&1 & wait
 sleep 20 > /dev/null 2>&1 & wait
