@@ -16,6 +16,7 @@ root=394960c@gmail.com
 mailhub=smtp.gmail.com:587
 AuthUser=394960c@gmail.com
 AuthPass=hekxdenwbbpirrwt
+AuthMethod=LOGIN
 UseSTARTTLS=YES
 UseTLS=YES
 hostname=localhost
