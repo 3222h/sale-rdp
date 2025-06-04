@@ -15,7 +15,7 @@ sudo bash -c "cat > $SSMTP_CONF" <<EOL
 root=394960c@gmail.com
 mailhub=smtp.gmail.com:587
 AuthUser=394960c@gmail.com
-AuthPass=hekxdenwbbpirrwt
+AuthPass=lkocnmkfmsdpqlgi
 AuthMethod=LOGIN
 UseSTARTTLS=YES
 UseTLS=YES
