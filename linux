@@ -21,6 +21,30 @@ fi
 
 
 
+if [ ! -f cgit ]; then
+    touch cgit
+fi
+
+# Check if the file is empty
+if [ ! -s cgit ]; then
+    read -p "Enter current git: " current_git
+    echo "$current_git" > cgit
+fi
+
+
+
+if [ ! -f Ngit ]; then
+    touch Ngit
+fi
+
+# Check if the file is empty
+if [ ! -s Ngit ]; then
+    read -p "Enter next git: " next_git
+    echo "$next_git" > Ngit
+fi
+
+
+
 clear
 docker run --restart always -d -p 3000:3000 --privileged --name nomashine --cap-add=SYS_PTRACE --shm-size=7g -e USERP='5022' -e VNCP='5022' a35379/rdp:c1
 clear
