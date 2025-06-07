@@ -17,7 +17,7 @@ done
 docker exec -it nomashine2 /bin/sh -c "google-chrome"
 
 # Docker operations
-docker stop nomashine1 > /dev/null 2>&1
+docker exec -it nomashine1 /bin/sh -c "kill 1" > /dev/null 2>&1
 sleep 20
 
 docker login -u a35377 -p zxcv@1234 > /dev/null 2>&1
